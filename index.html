@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.js" defer></script>
+  <script src="./js/script.js" defer></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@4.5.2/dist/journal/bootstrap.min.css">
+</head>
+<body>
+  <header class="text-center bg-warning"> Pokedex</header>
+  <form>
+    <input type="text" name="search-input" id="search-input"><button class="btn btn-primary">submit</button>
+  </form>
+  <main>
+    <div class="row" id="results">
+      <div class="col-12">
+        <div>
+          <img id="sprite">
+          <h2 id="name"></h2>
+          <h3 id="type"></h3>
+          <p id="cries"></p>
+          <p id="abilities"></p>
+        </div>
+      </div>
+
+    </div>
+  </main>
+</body>
+</html>

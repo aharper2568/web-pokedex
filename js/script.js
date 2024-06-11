@@ -10,7 +10,7 @@ const searchInput = $('#search-input')
 
 const test = function(pokemon) {
 
-    fetch('https://pokeapi.co/api/v2/pokemon/ditto')
+    fetch('https://pokeapi.co/api/v2/pokemon/charizard')
     .then(function(response) {
         return response.json();
         })
@@ -51,10 +51,17 @@ results.empty()
 const pokemonCard = $(`
 <div class="row">
 <div class="card col-12 col-md-8 m-5">
-<p>${data.name}</p>
+<h2>Name: ${data.name}</h2>
 <img src="${data.sprites.front_default}">
-<p>${data.abilities[0].ability.name}/${data.abilities[1].ability.name}</p>
-<p><b>Type:</b>${data.types[0].type.name}</p>
+<div>
+<h3>Abilities:</h3>
+<a href="${data.abilities[0].ability.url}">${data.abilities[0].ability.name}</a><br>
+<a href="${data.abilities[1].ability.url}">${data.abilities[1].ability.name}</a>
+</div>
+<h3>Type: </h3>
+<p><b></b>${data.types[0].type.name}, ${data.types[1].type.name}</p>
+<p><b>ID: </b>${data.id}</p>
+<h3>
 </div>
 </div>
 `)

@@ -55,7 +55,7 @@ const pokemonCard = $(`
 <img src="${data.sprites.front_default}">
 <p>${data.abilities[0].ability.name}/${data.abilities[1].ability.name}</p>
 <p><b>Type:</b>${data.types[0].type.name}</p>
-<div>
+</div>
 </div>
 `)
 results.append(pokemonCard)

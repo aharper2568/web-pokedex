@@ -47,43 +47,47 @@ $('#search-form').on("submit", handleFormSubmit)
 
 
 function populatePokemonContainer(data) {
-    const imgCard = $('#img-card')
-    const pokeCard = $('#pokemon-card')
-    const spriteImg = $('#sprite');
-    const name = $('#name');
-    const type = $('#type');
-    const abilities = $('#abilities');
-    const cryCard = $('<h3>')
-    const cryEl = $('<audio controls>').attr('src', data.cries.legacy);
-    const spriteImgBack = $('#sprite-back')
-    const shinyButton = $('<button>')
-    spriteImgBack.attr('src', data.sprites.back_default);
-    spriteImg.attr('src', data.sprites.front_default);
-    name.text(data.name)
-    type.text(data.types.map(type => type.type.name).join('/'))
-    abilities.text(data.abilities.map(ability => ability.ability.name).join('/'))
-    cryCard.text('cries:')
-    pokeCard.addClass('card')
-    shinyButton.addClass('btn')
-    shinyButton.text('Shiny!')
-    imgCard.empty().append(shinyButton)
-    
-    cryCard.append(cryEl)
-    
-    
-    cardEl.empty().append(cryCard)
-    let mode = 'notshiny'
-    $(shinyButton).on('click', function () {
-        if (mode === 'notshiny') {
-            mode = 'shiny';
-            spriteImg.attr('src', data.sprites.front_shiny);
-            spriteImgBack.attr('src', data.sprites.back_shiny);
-        } else {
-            mode = 'notshiny'
-            spriteImg.attr('src', data.sprites.front_default);
-            spriteImgBack.attr('src', data.sprites.back_default);
-        }
-    })
+const abilities = data.abilities.map( ability => `
+<a href="${ability.ability.url}" target="blank">${ability.ability.name}</a>`).join('/');
+
+const types = data.types.map(type => type.type.name).join(',')
+
+const pokemonCard = $(`
+        <div class="card mb-3">
+            <div class="row g-0">
+                <div class="col-md-4 text-center">
+                    <img id="sprite" src="${data.sprites.front_default}" class="img-fluid rounded-start" alt="${data.name}">
+                    <img id="sprite-back" src="${data.sprites.back_default}" class="img-fluid rounded-start" alt="${data.name}">
+                    <button id="shiny-button" class="btn btn-warning mt-3">Shiny!</button>
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title">${data.name}</h5>
+                        <p class="card-text"><b>Abilities:</b><br>${abilities}</p>
+                        <p class="card-text"><b>Type:</b> ${types}</p>
+                        <p class="card-text"><b>ID:</b> ${data.id}</p>
+                        <h3>Cries:</h3>
+                        <audio id="cry" controls src="${data.cries.latest}"></audio>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `);
+
+results.empty().append(pokemonCard);
+
+let mode = 'notshiny';
+$('#shiny-button').on('click', function() {
+    if (mode === 'notshiny') {
+        mode = 'shiny';
+        $('#sprite').attr('src', data.sprites.front_shiny);
+        $('#sprite-back').attr('src', data.sprites.back_shiny);
+    } else {
+        mode = 'notshiny';
+        $('#sprite').attr('src', data.sprites.front_default);
+        $('#sprite-back').attr('src', data.sprites.back_default);
+    }
+});
 
 }
 

@@ -24,7 +24,7 @@ test()
 
 function handleFormSubmit(event) {
     event.preventDefault();
-    const pokeName = searchInput.val()
+    const pokeName = searchInput.val().toLowerCase();
     if (pokeName) {
         searchApi(pokeName);
     }
@@ -45,38 +45,44 @@ const searchApi = function(pokemon) {
 
 
 function populatePokemonContainer(data) {
-// results.empty()
-// const pokemonCard = $(`
-// <div class="row">
-// <div class="card col-12 col-md-8 m-5">
-// <h2>Name: ${data.name}</h2>
-// <img src="${data.sprites.front_default}">
-// <div>
-// <h3>Abilities:</h3>
-// <a href="${data.abilities[0].ability.url}">${data.abilities[0].ability.name}</a><br>
-// <a href="${data.abilities[1].ability.url}">${data.abilities[1].ability.name}</a>
-// </div>
-// <h3>Type: </h3>
-// <p><b></b>${data.types[0].type.name}, ${data.types[1].type.name}</p>
-// <p><b>ID: </b>${data.id}</p>
-// <h3>
-// </div>
-// </div>
-// `)
-
+const imgCard = $('#img-card')
+const pokeCard =$('#pokemon-card')
 const cardEl = $('#pokemon')
 const spriteImg = $('#sprite');
 const name =  $('#name');
 const type = $('#type');
 const abilities = $('#abilities');
+const cryCard = $('<h3>')
+const cryEl = $('<audio controls>').attr('src', data.cries.legacy);
+const spriteImgBack = $('#sprite-back')
+const shinyButton = $('<button>')
+spriteImgBack.attr('src', data.sprites.back_default);
 spriteImg.attr ('src', data.sprites.front_default);
 name.text(data.name)
-type.text(data.types[0].type.name)
-abilities.text(data.abilities[0].ability.name)
+type.text(data.types.map(type => type.type.name).join('/'))
+abilities.text(data.abilities.map(ability => ability.ability.name).join('/'))
+cryCard.text('cries:')
+pokeCard.addClass('card')
+shinyButton.addClass('btn')
+shinyButton.text('Shiny!')
+imgCard.append(shinyButton)
+
+cryCard.append(cryEl)
 
 
-
-
+cardEl.append(cryCard)
+let mode = 'notshiny'
+$(shinyButton).on('click', function(){
+    if (mode === 'notshiny'){
+        mode ='shiny';
+    spriteImg.attr('src', data.sprites.front_shiny);
+    spriteImgBack.attr('src', data.sprites.back_shiny);
+    } else {
+        mode = 'notshiny'
+    spriteImg.attr('src', data.sprites.front_default);
+    spriteImgBack.attr('src', data.sprites.back_default);
+    }
+})
 
 }
 

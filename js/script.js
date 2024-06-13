@@ -2,7 +2,7 @@ const cardEl = $('#pokemon')
 const searchForm = $('#search-form');
 const results = $('#results');
 const searchInput = $('#search-input')
-
+const searchHistoryEl = $('#search-history');
 
 
 
@@ -27,7 +27,9 @@ function handleFormSubmit(event) {
     event.preventDefault();
     const pokeName = searchInput.val().toLowerCase();
     if (pokeName) {
+        addToSearchHistory(pokeName);
         searchApi(pokeName);
+        renderSearchHistory()
     }
 }
 const searchApi = function (pokemon) {
@@ -38,6 +40,27 @@ const searchApi = function (pokemon) {
 
 
 
+}
+
+
+function addToSearchHistory(pokemon) {
+    let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+ if (!history.includes(pokemon)) {
+    history.push(pokemon);
+    localStorage.setItem('searchHistory', JSON.stringify(history));
+ }
+}
+
+function renderSearchHistory() {
+    let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+    searchHistoryEl.empty();
+    history.forEach (pokemon => {
+        const historyItem = $(`<li class="list-group-item btn">${pokemon}</li>`);
+        historyItem.on('click', () => {
+            searchApi(pokemon);
+        });
+        searchHistoryEl.append(historyItem)
+    })
 }
 
 
@@ -114,3 +137,27 @@ function populatePokemonContainer(data) {
 
 }
 
+$(document).ready(function () {
+    renderSearchHistory();
+    searchForm.on('submit', handleFormSubmit)
+  });
+
+
+  const pokemonCard = document.querySelector('.card');
+
+// Initialize Hammer on the Pokémon card element
+const hammer = new Hammer(pokemonCard);
+
+let lastScale = 1;
+let currentScale = 1;
+
+// Pinch event handler
+hammer.on('pinch', function (event) {
+    currentScale = Math.max(1, Math.min(lastScale * event.scale, 3)); // Limit scale to a max of 3
+    pokemonCard.style.transform = `scale(${currentScale})`;
+});
+
+// Pinchend event handler
+hammer.on('pinchend', function () {
+    lastScale = currentScale;
+});

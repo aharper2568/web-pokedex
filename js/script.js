@@ -48,7 +48,7 @@ $('#search-form').on("submit", handleFormSubmit)
 
 function populatePokemonContainer(data) {
     const abilities = data.abilities.map(ability => `
-<a href="${ability.ability.url}" target="blank">${ability.ability.name}</a>`).join('/').toUpperCase();
+ ${ability.ability.name}`).join('/').toUpperCase();
 
     const types = data.types.map(type => type.type.name).join(',').toUpperCase();
     const names = (data.name).toUpperCase();
@@ -64,7 +64,7 @@ function populatePokemonContainer(data) {
                 <div class="col-md-8">
                     <div class="card-body">
                         <h3 class="card-title">Name: ${names}</h3>
-                        <p class="card-text"><b>Abilities: </b><br>${abilities}</p>
+                        <p class="card-text"><b>Abilities: </b><br><a href="${data.abilities[0].ability.url}" target="blank">${abilities}</a></p>
                         <p class="card-text"><b>Type: </b> ${types}</p>
                         <p class="card-text"><b>ID: </b> ${data.id}</p>
                         <h3>Cries:</h3>

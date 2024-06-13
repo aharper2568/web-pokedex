@@ -6,19 +6,20 @@ const searchInput = $('#search-input')
 
 
 
-const test = function(pokemon) {
+const test = function (pokemon) {
 
     fetch('https://pokeapi.co/api/v2/pokemon/charizard')
-    .then(function(response) {
-        return response.json();
+        .then(function (response) {
+            return response.json();
         })
-        .then(function(data) {
+        .then(function (data) {
             console.log('SEARCH');
             console.log(data);
-            })
-            .catch(function (err) {
-                console.log(err);
-                })};
+        })
+        .catch(function (err) {
+            console.log(err);
+        })
+};
 
 test()
 
@@ -29,28 +30,28 @@ function handleFormSubmit(event) {
         searchApi(pokeName);
     }
 }
-const searchApi = function(pokemon) {
-    
+const searchApi = function (pokemon) {
+
     fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
-    .then( response => response.json())
-    .then (data => populatePokemonContainer(data))
-    
-    
+        .then(response => response.json())
+        .then(data => populatePokemonContainer(data))
+
+
 }
 
 
-        
-                
-                $('#search-form').on("submit", handleFormSubmit)
+
+
+$('#search-form').on("submit", handleFormSubmit)
 
 
 function populatePokemonContainer(data) {
-const abilities = data.abilities.map( ability => `
+    const abilities = data.abilities.map(ability => `
 <a href="${ability.ability.url}" target="blank">${ability.ability.name}</a>`).join('/');
 
-const types = data.types.map(type => type.type.name).join(',')
+    const types = data.types.map(type => type.type.name).join(',').toUpperCase();
 
-const pokemonCard = $(`
+    const pokemonCard = $(`
         <div class="card mb-3">
             <div class="row g-0">
                 <div class="col-md-4 text-center">
@@ -72,20 +73,20 @@ const pokemonCard = $(`
         </div>
     `);
 
-results.empty().append(pokemonCard);
+    results.empty().append(pokemonCard);
 
-let mode = 'notshiny';
-$('#shiny-button').on('click', function() {
-    if (mode === 'notshiny') {
-        mode = 'shiny';
-        $('#sprite').attr('src', data.sprites.front_shiny);
-        $('#sprite-back').attr('src', data.sprites.back_shiny);
-    } else {
-        mode = 'notshiny';
-        $('#sprite').attr('src', data.sprites.front_default);
-        $('#sprite-back').attr('src', data.sprites.back_default);
-    }
-});
+    let mode = 'notshiny';
+    $('#shiny-button').on('click', function () {
+        if (mode === 'notshiny') {
+            mode = 'shiny';
+            $('#sprite').attr('src', data.sprites.front_shiny);
+            $('#sprite-back').attr('src', data.sprites.back_shiny);
+        } else {
+            mode = 'notshiny';
+            $('#sprite').attr('src', data.sprites.front_default);
+            $('#sprite-back').attr('src', data.sprites.back_default);
+        }
+    });
 
 }
 

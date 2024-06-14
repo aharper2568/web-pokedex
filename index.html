@@ -1,33 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokedex</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.js" defer></script>
-  <script src="https://code.jquery.com/jquery-3.4.1.min.js" defer></script>
-  <script src="./js/script.js" defer></script>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/journal/bootstrap.min.css">
-</head>
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/journal/bootstrap.min.css">
+  </head>
 <body>
-  <header class="text-center bg-warning p-5">
-    <h1>Pokedex</h1>
-  </header>
-  <form id="search-form">
-    <input type="text" name="search-input" id="search-input"><button type="submit"
-      class="btn btn-primary">submit</button>
-  </form>
-  
-  <main>
-    <div class="row" id="results">
-      
-    </div>
-    <h3 class="my-4 text-center">Search History</h3>
-    <ul id="search-history" class="list-group"> </ul>
-  
-  </main>
+    <div class="container">
+        <h1 class="my-4">Pokémon Search</h1>
+        <form id="search-form" class="mb-4">
+            <div class="input-group">
+                <input type="text" id="search-input" class="form-control" placeholder="Enter Pokémon name">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </form>
+        <main>
+          <div class="row" id="results">
+          </div>
+          <div class="container mt-4">
+            <h3 class="text-center">Pokémon Stats</h3>
+            <canvas id="stats-chart" width="100" height="50"></canvas>
+          </div>
+          <h3 class="my-4 text-center">Search History</h3>
+          <ul id="search-history" class="list-group"> </ul>
+          
+    
+        </main>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://hammerjs.github.io/dist/hammer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+    <script src="./js/script.js"></script>
 </body>
-
 </html>

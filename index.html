@@ -1,36 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pokedex</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/journal/bootstrap.min.css">
-  </head>
-<body>
-    <div class="container">
-        <h1 class="my-4">Pokémon Search</h1>
-        <form id="search-form" class="mb-4">
-            <div class="input-group">
-                <input type="text" id="search-input" class="form-control" placeholder="Enter Pokémon name">
-                <button class="btn btn-primary" type="submit">Search</button>
-            </div>
-        </form>
-        <main>
-          <div class="row" id="results">
-          </div>
-          <div class="container mt-4">
-            <h3 class="text-center">Pokémon Stats</h3>
-            <canvas id="stats-chart" width="100" height="50"></canvas>
-          </div>
-          <h3 class="my-4 text-center">Search History</h3>
-          <ul id="search-history" class="list-group"> </ul>
-          
-    
-        </main>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://hammerjs.github.io/dist/hammer.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
-    <script src="./js/script.js"></script>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pokedex</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.3/dist/journal/bootstrap.min.css">
+</head>
+
+<body id="body-color">
+  <div class="container">
+    <h1 class="my-4">Pokémon Search</h1>
+    <form id="search-form" class="mb-4">
+      <div class="input-group">
+        <input type="text" id="search-input" class="form-control form-control-lg" placeholder="Enter Pokémon name">
+        <button class="btn btn-primary btn-lg" type="submit">Search</button>
+      </div>
+    </form>
+    <main class="row">
+      <div class="col mt-5" id="results">
+      </div>
+      <div class="mt-4 col">
+        <h3 class="text-center">Pokémon Stats</h3>
+        <canvas class="" id="stats-chart"></canvas>
+      </div>
+      <h3 class="my-4 mb-4 text-center">Search History</h3>
+      <ul id="search-history" class="list-group mb-4 fs-2"> </ul>
+    </main>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://hammerjs.github.io/dist/hammer.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="./js/script.js"></script>
 </body>
+
 </html>

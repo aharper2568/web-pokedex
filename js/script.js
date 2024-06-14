@@ -1,79 +1,70 @@
-const cardEl = $('#pokemon')
+const cardEl = $('#pokemon');
 const searchForm = $('#search-form');
 const results = $('#results');
-const searchInput = $('#search-input')
+const searchInput = $('#search-input');
 const searchHistoryEl = $('#search-history');
-
-
-
-const test = function (pokemon) {
-
-    fetch('https://pokeapi.co/api/v2/pokemon/charizard')
-        .then(function (response) {
-            return response.json();
-        })
-        .then(function (data) {
-            console.log('SEARCH');
-            console.log(data);
-        })
-        .catch(function (err) {
-            console.log(err);
-        })
-};
-
-test()
+let chart;
 
 function handleFormSubmit(event) {
     event.preventDefault();
-    const pokeName = searchInput.val().toLowerCase();
+    const pokeName = searchInput.val().toLowerCase().trim();
     if (pokeName) {
         addToSearchHistory(pokeName);
         searchApi(pokeName);
-        renderSearchHistory()
     }
 }
-const searchApi = function (pokemon) {
 
+const searchApi = function(pokemon) {
     fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}`)
-        .then(response => response.json())
-        .then(data => populatePokemonContainer(data))
-
-
-
+    .then(response => response.json())
+    .then(data => {
+        console.log(data);
+        populatePokemonContainer(data);
+        updateChart(data.stats);
+    })
+    .catch(err => {
+        console.log(err);
+        results.html('<p class="text-danger">Pokémon not found. Please try again.</p>');
+    });
 }
-
 
 function addToSearchHistory(pokemon) {
     let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
- if (!history.includes(pokemon)) {
-    history.push(pokemon);
-    localStorage.setItem('searchHistory', JSON.stringify(history));
- }
+    if (!history.includes(pokemon)) {
+        history.push(pokemon);
+        localStorage.setItem('searchHistory', JSON.stringify(history));
+        renderSearchHistory();
+    }
 }
 
 function renderSearchHistory() {
     let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
     searchHistoryEl.empty();
-    history.forEach (pokemon => {
-        const historyItem = $(`<li class="list-group-item btn">${pokemon}</li>`);
+    history.forEach(pokemon => {
+        const historyItem = $(`<li class="list-group-item list-group-item-action">${pokemon}</li>`);
         historyItem.on('click', () => {
             searchApi(pokemon);
         });
-        searchHistoryEl.append(historyItem)
-    })
+        searchHistoryEl.append(historyItem);
+    });
 }
 
+function decagramsToPounds(decagrams) {
+    const pounds = decagrams / 4.5359;
+    return parseFloat(pounds.toFixed(2));
+}
 
-
-
-$('#search-form').on("submit", handleFormSubmit)
-
+function decimetersToFeet(decimeters) {
+    const feet = decimeters * 0.328084;
+    return parseFloat(feet.toFixed(2));
+}
 
 function populatePokemonContainer(data) {
     const abilities = data.abilities.map(ability => `
- ${ability.ability.name}`).join('/').toUpperCase();
+        <a href="${ability.ability.url}" target="_blank">${ability.ability.name}</a>
+    `).join(', ').toUpperCase();
 
-    const types = data.types.map(type => type.type.name).join(',').toUpperCase();
+    const types = data.types.map(type => type.type.name).join(', ').toUpperCase();
     const names = (data.name).toUpperCase();
 
     const pokemonCard = $(`
@@ -81,17 +72,17 @@ function populatePokemonContainer(data) {
             <div class="row g-0">
                 <div class="col-md-4 text-center">
                     <img id="sprite" src="${data.sprites.front_default}" class="img-fluid rounded-start" alt="${data.name}">
-                    <img id="sprite-back" src="${data.sprites.back_default}" class="img-fluid rounded-start" alt="${data.name}">
+                    <img id="sprite-back" src="${data.sprites.back_default}" class="img-fluid rounded-start" alt="${data.name}" style="display: none;">
                     <button id="shiny-button" class="btn btn-warning mt-3">Shiny!</button>
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
                         <h3 class="card-title">Name: ${names}</h3>
-                        <p class="card-text"><b>Abilities: </b><br><a href="${data.abilities[0].ability.url}" target="blank">${abilities}</a></p>
+                        <p class="card-text"><b>Abilities: </b><br>${abilities}</p>
                         <p class="card-text"><b>Type: </b> ${types}</p>
                         <p class="card-text"><b>ID: </b> ${data.id}</p>
                         <h3>Cries:</h3>
-                        <audio id="cry" controls src="${data.cries.latest}"></audio>
+                        <audio id="cry" controls src="${data.cries ? data.cries.latest : ''}"></audio>
                         <h3>Stats:</h3>
                         <p class="card-text"><b>HP: </b>${data.stats[0].base_stat}</p>
                         <p class="card-text"><b>Attack: </b>${data.stats[1].base_stat}</p>
@@ -101,24 +92,11 @@ function populatePokemonContainer(data) {
                         <p class="card-text"><b>Speed: </b>${data.stats[5].base_stat}</p>
                         <p class="card-text"><b>Height: </b>${decimetersToFeet(data.height)} Feet</p>
                         <p class="card-text"><b>Weight: </b>${decagramsToPounds(data.weight)} Lbs</p>
-                      
                     </div>
                 </div>
             </div>
         </div>
     `);
-    function decagramsToPounds(decagrams) {
-        const pounds = decagrams / 4.5359;
-        return parseFloat(pounds.toFixed(2));
-      }
-      function decimetersToFeet(decimeters) {
-        const feet = decimeters * 0.328084;
-        return parseFloat(feet.toFixed(2));
-    }
-    
- 
-  
-
 
     results.empty().append(pokemonCard);
 
@@ -135,10 +113,58 @@ function populatePokemonContainer(data) {
         }
     });
 
+   
+    const spriteEl = document.getElementById('sprite');
+    const spriteBackEl = document.getElementById('sprite-back');
+    const hammer = new Hammer(spriteEl);
+    hammer.get('swipe').set({ direction: Hammer.DIRECTION_HORIZONTAL });
+
+    hammer.on('swipeleft', function() {
+        spriteEl.style.display = 'none';
+        spriteBackEl.style.display = 'block';
+    });
+
+    hammer.on('swiperight', function() {
+        spriteEl.style.display = 'block';
+        spriteBackEl.style.display = 'none';
+    });
 }
 
-$(document).ready(function () {
+function updateChart(stats) {
+    const statNames = stats.map(stat => stat.stat.name.toUpperCase());
+    const statValues = stats.map(stat => stat.base_stat);
+
+    const ctx = document.getElementById('stats-chart').getContext('2d');
+
+    if (chart) {
+        chart.destroy();
+    }
+
+    chart = new Chart(ctx, {
+        type: 'polarArea',
+        data: {
+            labels: statNames,
+            datasets: [{
+                label: 'Base Stats',
+                data: statValues,
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
+$(document).ready(function() {
     renderSearchHistory();
+<<<<<<< HEAD
     searchForm.on('submit', handleFormSubmit)
   });
 
@@ -155,9 +181,7 @@ let currentScale = 1;
 hammer.on('pinch', function (event) {
     currentScale = Math.max(1, Math.min(lastScale * event.scale, 3)); // Limit scale to a max of 3
     pokemonCard.style.transform = `scale(${currentScale})`;
-});
-
-// Pinchend event handler
-hammer.on('pinchend', function () {
-    lastScale = currentScale;
+=======
+    searchForm.on("submit", handleFormSubmit);
+>>>>>>> 1d466102311efd2b5d88201f21013f9ae14a8ee6
 });

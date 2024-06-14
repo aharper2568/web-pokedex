@@ -71,9 +71,9 @@ function populatePokemonContainer(data) {
         <div class="card mb-3">
             <div class="row g-0">
                 <div class="col-md-4 text-center">
-                    <img id="sprite" src="${data.sprites.front_default}" class="img-fluid rounded-start" alt="${data.name}">
-                    <img id="sprite-back" src="${data.sprites.back_default}" class="img-fluid rounded-start" alt="${data.name}" style="display: none;">
-                    <button id="shiny-button" class="btn btn-warning mt-3">Shiny!</button>
+                    <img style="image-rendering: crisp-edges;" id="sprite" src="${data.sprites.front_default}" class="img-fluid w-100 rounded-start" alt="${data.name}">
+                    <img style="image-rendering: crisp-edges;"  id="sprite-back" src="${data.sprites.back_default}" class="img-fluid w-100 rounded-start" alt="${data.name}">
+                    <button id="shiny-button" class="btn btn-success btn-lg mt-3">Shiny!</button>
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
@@ -147,8 +147,16 @@ function updateChart(stats) {
             datasets: [{
                 label: 'Base Stats',
                 data: statValues,
-                backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: [
+                'rgba(255, 99, 132, 0.5)',
+                'rgba(75, 252, 192, 0.5)',
+                'rgba(255, 205, 86, 0.5)',
+                'rgba(201, 203, 207, 0.5)',
+                'rgba(54, 162, 235, 0.5)',
+                'rgba(36, 92, 205, 0.5)'
+                ],
+
+                borderColor: 'rgba(75, 192, 192, 0.2)',
                 borderWidth: 1
             }]
         },

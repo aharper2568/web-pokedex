@@ -164,24 +164,5 @@ function updateChart(stats) {
 
 $(document).ready(function() {
     renderSearchHistory();
-<<<<<<< HEAD
-    searchForm.on('submit', handleFormSubmit)
-  });
-
-
-  const pokemonCard = document.querySelector('.card');
-
-// Initialize Hammer on the Pokémon card element
-const hammer = new Hammer(pokemonCard[0]);
-
-let lastScale = 1;
-let currentScale = 1;
-
-// Pinch event handler
-hammer.on('pinch', function (event) {
-    currentScale = Math.max(1, Math.min(lastScale * event.scale, 3)); // Limit scale to a max of 3
-    pokemonCard.style.transform = `scale(${currentScale})`;
-=======
     searchForm.on("submit", handleFormSubmit);
->>>>>>> 1d466102311efd2b5d88201f21013f9ae14a8ee6
 });

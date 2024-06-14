@@ -146,7 +146,7 @@ $(document).ready(function () {
   const pokemonCard = document.querySelector('.card');
 
 // Initialize Hammer on the Pokémon card element
-const hammer = new Hammer(pokemonCard);
+const hammer = new Hammer(pokemonCard[0]);
 
 let lastScale = 1;
 let currentScale = 1;

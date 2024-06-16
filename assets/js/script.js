@@ -4,6 +4,7 @@ const results = $('#results');
 const searchInput = $('#search-input');
 const searchHistoryEl = $('#search-history');
 let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
+const pkmnStats = $('#pkmn-stats')
 let chart; // for chartjs
 
 function handleFormSubmit(event) {
@@ -97,7 +98,7 @@ function populatePokemonContainer(data) {
             </div>
         </div>
     `);
-
+    pkmnStats.empty().text('Pokémon Stats')
     results.empty().append(pokemonCard); // clear previous data and append new search
 
     let mode = 'notshiny';

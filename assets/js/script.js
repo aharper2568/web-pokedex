@@ -112,21 +112,7 @@ function populatePokemonContainer(data) {
         }
     });
 
-   
-    const spriteEl = document.getElementById('sprite');
-    const spriteBackEl = document.getElementById('sprite-back');
-    const hammer = new Hammer(spriteEl);
-    hammer.get('swipe').set({ direction: Hammer.DIRECTION_HORIZONTAL });
 
-    hammer.on('swipeleft', function() {
-        spriteEl.style.display = 'none';
-        spriteBackEl.style.display = 'block';
-    });
-
-    hammer.on('swiperight', function() {
-        spriteEl.style.display = 'block';
-        spriteBackEl.style.display = 'none';
-    });
 }
 
 function updateChart(stats) {

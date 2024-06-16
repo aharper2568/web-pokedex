@@ -41,7 +41,7 @@ function renderSearchHistory() {
     let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
     searchHistoryEl.empty();
     history.forEach(pokemon => {
-        const historyItem = $(`<li class="list-group-item list-group-item-action">${pokemon}</li>`);
+        const historyItem = $(`<li class="list-group-item list-group-item-action btn">${pokemon}</li>`);
         historyItem.on('click', () => {
             searchApi(pokemon);
         });

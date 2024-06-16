@@ -3,6 +3,7 @@ const searchForm = $('#search-form');
 const results = $('#results');
 const searchInput = $('#search-input');
 const searchHistoryEl = $('#search-history');
+let history = JSON.parse(localStorage.getItem('searchHistory')) || [];
 let chart; // for chartjs
 
 function handleFormSubmit(event) {
@@ -159,4 +160,7 @@ function updateChart(stats) {
 $(document).ready(function() {
     renderSearchHistory();
     searchForm.on("submit", handleFormSubmit);
+    if (history.length > 0) { // if there is at least one search entry
+        searchApi(history[history.length - 1]); // render last searched pokemon upon loading page
+    }
 });

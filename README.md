@@ -29,7 +29,7 @@ This is a simple web application that allows uers to sarch for pokemon by name, 
 Developed in VSCode by **Anthony Harper** and **Bryson Shoffner**
 
 [.join method used to concateninate strings for types and abilities and seperate them](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/join)  
-[.destroy method, only known method used to completely delete chart before rendering a new one](https://developer.mozilla.org/en-US/docs/Web/API/GPUDevice/destroy)
+[.destroy method, only known method used to completely delete chart before rendering a new one](https://www.chartjs.org/docs/latest/developers/api.html#destroy)
 
 
 
